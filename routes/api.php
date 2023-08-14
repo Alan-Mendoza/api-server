@@ -34,3 +34,5 @@ Route::delete('services/{service}', [ServiceController::class, 'destroy']);
 
 Route::post('clients/services', [ClientController::class, 'attach']);
 Route::post('clients/services/detach', [ClientController::class, 'detach']);
+
+Route::post('services/clients', [ServiceController::class, 'clients']);
