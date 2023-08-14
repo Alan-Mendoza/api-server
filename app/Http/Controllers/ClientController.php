@@ -126,4 +126,17 @@ class ClientController extends Controller
 
         return response()->json($data);
     }
+
+    public function detach(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        $client->services()->detach($request->service_id);
+
+        $data = [
+            'message' => 'Servicio desasignado correctamente',
+            'client' => $client
+        ];
+
+        return response()->json($data);
+    }
 }
