@@ -12,7 +12,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::all();
+        return response()->json($services);
     }
 
     /**
@@ -28,7 +29,18 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $service = new Service;
+        $service->name = $request->name;
+        $service->description = $request->description;
+        $service->price = $request->price;
+        $service->save();
+
+        $data = [
+            'message' => 'Servicio creado correctamente',
+            'service' => $service
+        ];
+
+        return response()->json($data);
     }
 
     /**
@@ -36,7 +48,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        //
+        return response()->json($service);
     }
 
     /**
@@ -52,7 +64,17 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        //
+        $service->name = $request->name;
+        $service->description = $request->description;
+        $service->price = $request->price;
+        $service->save();
+
+        $data = [
+            'message' => 'Servicio actualizado correctamente',
+            'service' => $service
+        ];
+
+        return response()->json($data);
     }
 
     /**
@@ -60,6 +82,13 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        $service->delete();
+
+        $data = [
+            'message' => 'Servicio eliminado correctamente',
+            'service' => $service
+        ];
+
+        return response()->json($data);
     }
 }
