@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -26,7 +27,14 @@ class ClientController extends Controller
             ];
         }
 
-        return response()->json($array);
+        // return response()->json($array);
+        if(request()->wantsJson()) {
+            return response()->json($array);
+        } else {
+            return view('clients.index')->with([
+                'clients' => $array,
+            ]);
+        }
     }
 
     /**
@@ -34,7 +42,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('clients.create');
     }
 
     /**
@@ -54,7 +62,16 @@ class ClientController extends Controller
             'client' => $client
         ];
 
-        return response()->json($data);
+        if(request()->wantsJson()) {
+            return response()->json($data);
+        } else {
+            // $clients = Client::all(); // Obtener la lista actualizada de clientes
+            // return view('clients.index')->with([
+            //     'clients' => $clients
+            // ]);
+            // return view('clients.index');
+            return redirect()->route('clients.index');
+        }
     }
 
     /**
@@ -69,7 +86,14 @@ class ClientController extends Controller
         ];
         // return response()->json($client);
         // return response()->json($client->services);
-        return response()->json($data);
+        if(request()->wantsJson()) {
+            return response()->json($data);
+        } else {
+            return view('clients.show')->with([
+                // 'services' => Service::all(),
+                'client' => $client
+            ]);
+        }
     }
 
     /**
@@ -77,7 +101,9 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('clients.edit')->with([
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -96,7 +122,11 @@ class ClientController extends Controller
             'client' => $client
         ];
 
-        return response()->json($data);
+        if(request()->wantsJson()) {
+            return response()->json($data);
+        } else {
+            return redirect()->route('clients.index');
+        }
     }
 
     /**
@@ -111,7 +141,11 @@ class ClientController extends Controller
             'client' => $client
         ];
 
-        return response()->json($data);
+        if(request()->wantsJson()) {
+            return response()->json($data);
+        } else {
+            return redirect()->route('clients.index');
+        }
     }
 
     public function attach(Request $request)
